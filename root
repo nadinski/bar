@@ -105,6 +105,7 @@
             border-top: 1px solid var(--gold-dark);
             border-bottom: 1px solid var(--gold-dark);
             -webkit-overflow-scrolling: touch;
+flex-wrap: wrap; 
         }
         
         .categories::-webkit-scrollbar {
