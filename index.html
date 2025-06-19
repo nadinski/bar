@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAR</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+        --black: #0a0a0a;         
+--red: #8B0000;             
+--red-light: #C8102E;      
+--gold: #FFD700;            
+--gold-dark: #B8860B;     
+--neon: #FF2079;            
+     
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 500;
+        }
+        
+        body {
+            background: var(--black);
+            color: white;
+            overflow-x: hidden;
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 100px;
+        }
+        
+        /* Egyptian meander pattern */
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(135deg, var(--black) 2%, transparent 25%) -50px 0,
+                linear-gradient(225deg, var(--black) 2%, transparent 25%) -50px 0,
+                linear-gradient(315deg, var(--black) 5%, transparent 25%),
+                linear-gradient(45deg, var(--black) 25%, transparent 25%);
+            background-size: 100px 100px;
+            background-color: var(--red);
+            opacity: 0.2;
+            z-index: -2;
+        }
+        
+        /* Egyptian pyramid at the bottom */
+        .pyramid {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(to top, var(--neon), var(--gold-dark));
+          opacity: 40%;
+            clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+            z-index: -1;
+            mix-blend-mode: lighten;
+        }
+        
+        /* Logo centered */
+        .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 4rem;
+            letter-spacing: 8px;
+            font-weight: 400;
+            text-transform: uppercase;
+            color: var(--gold);
+            text-align: center;
+            padding: 20px 0;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 120px;
+        }
+        
+        .logo::before, .logo::after {
+    content: "𓃭";
+    font-size: 2rem;
+    margin: 15px ;
+    opacity: 0.8;
+}
+
+.logo::after {
+    transform: scaleX(-1);
+    display: inline-block; /* необходимо для работы transform */
+}
+        
+        /* Brutal category tabs */
+        .categories {
+            display: flex;
+            overflow-x: auto;
+            padding: 15px;
+            gap: 8px;
+            scrollbar-width: none;
+           
+    
+            
+            border-top: 1px solid var(--gold-dark);
+            border-bottom: 1px solid var(--gold-dark);
+          
+        }
+        
+        .categories::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .category-btn {
+            background: rgba(90, 0, 0, 0.3);
+            color: var(--gold);
+            border: 1px solid var(--gold-dark);
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+          backdrop-filter: blur(5px);
+          -webkit-backdrop-filter: blur(5px);
+        }
+        
+        .category-btn.active {
+            background: linear-gradient(to top, var(--neon), var(--gold-dark));
+            color: var(--black);
+            font-weight: bold;
+            border: 1px solid var(--gold);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+         opacity: 87%;
+          -webkit-backdrop-filter: blur(5px);
+          backdrop-filter: blur(5px);
+        }
+        
+        /* Menu items - egyptian style cards */
+        .menu-container {
+            padding: 25px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .category-section {
+            margin-bottom: 40px;
+            display: none;
+            animation: fadeIn 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .category-section.active {
+            display: block;
+        }
+        
+        .category-title {
+            font-family: 'Bebas Neue', sans-serif;
+            color: var(--gold);
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            position: relative;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+        
+        .category-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--gold), transparent);
+        }
+        
+        .item {
+            background:#200000;
+            padding: 18px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--gold);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+            border-radius: 0 10px 10px 0;
+            position: relative;
+            overflow: hidden;
+           opacity: 75%;
+          -webkit-backdrop-filter: blur(9px);
+          backdrop-filter: blur(9px);
+        }
+        
+        .item::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gold);
+        }
+        
+        .item:hover {
+            background: #200000;
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .item-name {
+            font-weight: 600;
+            color: var(--gold);
+            font-size: 1.1rem;
+            margin-left: 10px;
+        }
+        
+        .item-price {
+            font-family: 'Bebas Neue', sans-serif;
+            font-weight: normal;
+            color: var(--gold);
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--black);
+            color: var(--gold);
+            text-align: center;
+            padding: 25px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+            border-top: 1px solid var(--gold-dark);
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        
+        /* Responsive tweaks */
+        @media (max-width: 500px) {
+            .logo {
+                font-size: 2.5rem;
+                height: 100px;
+            }
+            
+            .logo::before, .logo::after {
+                font-size: 1.5rem;
+                margin: 0 10px;
+            }
+            
+            .category-title {
+                font-size: 1.8rem;
+            }
+            
+            .item {
+                padding: 15px;
+            }
+            
+            .pyramid {
+                height: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-pattern"></div>
+    <div class="pyramid"></div>
+    
+    <div class="logo">BAR</div>
+    
+    <div class="categories">
+        <button class="category-btn active" data-category="pricelist">Menu</button>
+        <button class="category-btn" data-category="beers">Beers</button>
+        <button class="category-btn" data-category="wines">Wines</button>
+        <button class="category-btn" data-category="vodkas">Vodkas</button>
+        <button class="category-btn" data-category="rums">Rums</button>
+        <button class="category-btn" data-category="whiskeys">Whiskeys</button>
+        <button class="category-btn" data-category="spirits">Spirits</button>
+        <button class="category-btn" data-category="boats">Boats</button>
+        <button class="category-btn" data-category="energy">Energy</button>
+        <button class="category-btn" data-category="beverages">Beverages</button>
+    </div>
+    
+    <div class="menu-container">
+        <!-- Pricelist -->
+        <div class="category-section active" id="pricelist">
+            <h2 class="category-title">Menu</h2>
+            <p style="color: var(--gold); text-align: center; margin: 30px 0; font-size: 1.2rem;">
+                WELCOME DEAR<br>CHOOSE YOUR POISON
+            </p>
+        </div>
+        
+        <!-- Beers -->
+        <div class="category-section" id="beers">
+            <h2 class="category-title">Beers</h2>
+            <div class="item">
+                <span class="item-name">Laško</span>
+                <span class="item-price">3€</span>
+            </div>
+            <div class="item">
+                <span class="item-name">Union</span>
+                <span class="item-price">3€</span>
+            </div>
+        </div>
+        
+        <!-- Wines -->
+        <div class="category-section" id="wines">
+            <h2 class="category-title">Wines</h2>
+            <div class="item">
+                <span class="item-name">Refošk</span>
+                <span class="item-price">2€</span>
+            </div>
+            <div class="item">
+                <span class="item-name">Cviček</span>
+                <span class="item-price">2€</span>
+            </div>
+            <div class="item">
+                <span class="item-name">Haložan</span>
+                <span class="item-price">2€</span>
+            </div>
+            <div class="item">
+                <span class="item-name">Janževec (1dcl)</span>
+                <span class="item-price">2€</span>
+            </div>
+        </div>
+        
+        <!-- Vodkas -->
+        <div class="category-section" id="vodkas">
+            <h2 class="category-title">Vodkas</h2>
+            <div class="item">
+                <span class="item-name">Trojka</span>
+                <span class="item-price">3€</span>
+            </div>
+            <div class="item">
+                <span class="item-name">Budget</span>
+                <span class="item-price">2€</span>
+            </div>
+        </div>
+        
+        <!-- Rums -->
+        <div class="category-section" id="rums">
+            <h2 class="category-title">Rums</h2>
+            <div class="item">
+                <span class="item-name">Rum domači</span>
+                <span class="item-price">2.5€</span>
+            </div>
+            <div class="item">
+                <span class="item-name">Captain Morgan</span>
+                <span class="item-price">4€</span>
+            </div>
+            <div class="item">
+                <span class="item-name">Beli rum</span>
+                <span class="item-price">2.5€</span>
+            </div>
+            <div class="item">
+                <span class="item-name">Bacardi</span>
+                <span class="item-price">3.5€</span>
+            </div>
+        </div>
+        
+        <!-- Whiskeys -->
+        <div class="category-section" id="whiskeys">
+            <h2 class="category-title">Whiskeys</h2>
+            <div class="item">
+                <span class="item-name">Whiskey budget</span>
+                <span class="item-price">2.5€</span>
+            </div>
+            <div class="item">
+                <span class="item-name">Jameson</span>
+                <span class="item-price">4€</span>
+            </div>
+            <div class="item">
+                <span class="item-name">Ballantines</span>
+                <span class="item-price">4€</span>
+            </div>
+        </div>
+        
+        <!-- Spirits -->
+        <div class="category-section" id="spirits">
+            <h2 class="category-title">Spirits</h2>
+            <div class="item">
+                <span class="item-name">Šamar</span>
+                <span class="item-price">3.5€</span>
+            </div>
+            <div class="item">
+                <span class="item-name">Viljamovka</span>
+                <span class="item-price">3.5€</span>
+            </div>
+            <div class="item">
+                <span class="item-name">Gin</span>
+                <span class="item-price">3.5€</span>
+            </div>
+            <div class="item">
+                <span class="item-name">Sierra Tequila</span>
+                <span class="item-price">4€</span>
+            </div>
+        </div>
+        
+        <!-- Boats -->
+        <div class="category-section" id="boats">
+            <h2 class="category-title">Boats</h2>
+            <div class="item">
+                <span class="item-name">Vodka (Trojka 1l + 8x RedBull)</span>
+                <span class="item-price">100€</span>
+            </div>
+            <div class="item">
+                <span class="item-name">Rum (Captian Morgan 1l + 8x Cola)</span>
+                <span class="item-price">100€</span>
+            </div>
+            <div class="item">
+                <span class="item-name">Whiskey (Jameson 1l + 8x Cola)</span>
+                <span class="item-price">100€</span>
+            </div>
+        </div>
+        
+        <!-- Energy -->
+        <div class="category-section" id="energy">
+            <h2 class="category-title">Energy</h2>
+            <div class="item">
+                <span class="item-name">Flying power</span>
+                <span class="item-price">2€</span>
+            </div>
+            <div class="item">
+                <span class="item-name">RedBull</span>
+                <span class="item-price">4€</span>
+            </div>
+        </div>
+        
+        <!-- Beverages -->
+        <div class="category-section" id="beverages">
+            <h2 class="category-title">Beverages</h2>
+            <div class="item">
+                <span class="item-name">Coca-Cola (1dcl)</span>
+                <span class="item-price">1.5€</span>
+            </div>
+            <div class="item">
+                <span class="item-name">Cola (0,25l)</span>
+                <span class="item-price">2€</span>
+            </div>
+            <div class="item">
+                <span class="item-name">Tonic (1dcl)</span>
+                <span class="item-price">1.5€</span>
+            </div>
+            <div class="item">
+                <span class="item-name">Radenska (1dcl)</span>
+                <span class="item-price">1.5€</span>
+            </div>
+            <div class="item">
+                <span class="item-name">Radenska (0,5l)</span>
+                <span class="item-price">3€</span>
+            </div>
+            <div class="item">
+                <span class="item-name">Water (0,5l)</span>
+                <span class="item-price">2€</span>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        © 2025 SOME | BAR 
+    </footer>
+    
+    <script>
+        // Category switching
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Hide all sections
+                document.querySelectorAll('.category-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                // Show the selected section
+                const categoryId = this.getAttribute('data-category');
+                document.getElementById(categoryId).classList.add('active');
+                
+                // Scroll to top
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
