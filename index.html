@@ -352,6 +352,51 @@
 ::-webkit-scrollbar-button {
     display: none;
 }
+        /* === Стилизация скроллбара для вебкит-браузеров (Chrome, Safari, Edge) === */
+::-webkit-scrollbar {
+    width: 2px;  /* Максимально узкий, как лезвие */
+}
+
+/* Фон дорожки скроллбара */
+::-webkit-scrollbar-track {
+    background: var(--black); /* Сливается с основным фоном */
+    border-left: 1px solid rgba(139, 0, 0, 0.3); /* Едва заметный рельеф */
+}
+
+/* Сам ползунок (thumb) */
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+        to bottom,
+        var(--gold-dark),   /* От темного золота */
+        var(--gold),        /* К светлому */
+        var(--gold-dark)    /* И обратно */
+    );
+    border-radius: 1px; /* Почти без скруглений, сохраняя брутальный стиль */
+    box-shadow: 0 0 6px rgba(255, 215, 0, 0.3); /* Таинственное золотое свечение */
+}
+
+/* Состояние при наведении на ползунок */
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+        to bottom,
+        var(--neon), 
+        var(--red-light), 
+        var(--neon)
+    );
+    box-shadow: 0 0 10px var(--neon); /* Неоновая вспышка при взаимодействии */
+    width: 3px; /* Чуть-чуть расширяется для лучшего захвата, но только визуально */
+}
+
+/* === Стилизация скроллбара для Firefox (более лаконичный подход) === */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold) var(--black); /* ползунок / дорожка */
+}
+
+/* Скрываем кнопки со стрелками в IE/Edge Legacy */
+::-webkit-scrollbar-button {
+    display: none;
+}
     </style>
 </head>
 <body>
